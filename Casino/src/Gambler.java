@@ -1,6 +1,5 @@
-package exchangeTable;
 
-import exchangeTable.FannyPack;
+
 
 public class Gambler {
 

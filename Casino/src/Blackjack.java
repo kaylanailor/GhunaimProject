@@ -9,6 +9,10 @@ import java.util.Iterator;
  */
 @SuppressWarnings("unused")
 public class Blackjack {
+	
+	public Blackjack() {
+		
+	}
     /**
      * A static helper method that returns the total value of the cards
      * @returns int
@@ -41,30 +45,34 @@ public class Blackjack {
      * A static helper method to return whether you lost or won and how you did it.
      * @return string
      */
-    private static String winOrLose(ArrayList<PlayingCard> playerHand,ArrayList<PlayingCard> dealerHand,boolean finished) {
-        String toReturn = "";
+    private static int winOrLose(ArrayList<PlayingCard> playerHand,ArrayList<PlayingCard> dealerHand,boolean finished, int bet) {
+    	int toReturn = 0;
         int playerTotal = totalValue(playerHand);
         int dealerTotal = totalValue(dealerHand);
         if(playerTotal > dealerTotal && playerTotal < 21) {
-            toReturn ="Congrats you won! Lenny the dealer had a lower card total! ( ͡° ʖ̯ ͡°)";
+            System.out.println("Congrats you won! Lenny the dealer had a lower card total! ( ͡° ʖ̯ ͡°)");
+            toReturn = 2 * bet;
         }
         else if(playerTotal > 21) {
-        	toReturn = "You lost! You went over 21! ( ͡° ͜ʖ ͡°) Lenny the Dealer called you a moron!";
+        	System.out.println("You lost! You went over 21! ( ͡° ͜ʖ ͡°) Lenny the Dealer called you a moron!");
         }
         else if(playerTotal < 21 && dealerTotal > 21) {
-        	toReturn = "You won because Lenny the dealer ( ͡° ʖ̯ ͡°) fucked up by going over 21!";
+        	System.out.println("You won because Lenny the dealer ( ͡° ʖ̯ ͡°) fucked up by going over 21!");
+        	toReturn = 2 * bet;
         }
         else if(playerTotal == 21) {
-        	toReturn = "Congratulations you won! You had a perfect 21! ( ͡° ʖ̯ ͡°)";
+        	System.out.println("Congratulations you won! You had a perfect 21! ( ͡° ʖ̯ ͡°)");
+        	toReturn = 3 * bet;
         }
         else if(playerTotal < dealerTotal && dealerTotal < 21) {
-        	toReturn = "Lenny the Dealer won! ( ͡° ͜ʖ ͡°) with a total card value of " + totalValue(dealerHand);
+        	System.out.println("Lenny the Dealer won! ( ͡° ͜ʖ ͡°) with a total card value of " + totalValue(dealerHand));
         }
         else if(dealerTotal == 21) {
-        	toReturn = "Lenny the Dealer won! ( ͡° ͜ʖ ͡°) He had a perfect hand!";
+        	System.out.println("Lenny the Dealer won! ( ͡° ͜ʖ ͡°) He had a perfect hand!");
         }
         else if(playerTotal == dealerTotal) {
-        	toReturn = "No one wins!";
+        	System.out.println("No one wins!");
+        	toReturn = bet;
         }
         return toReturn;
     }
@@ -72,8 +80,9 @@ public class Blackjack {
     /**
      * A method to create a game of BlackJack.
      */
-    public void play() {
+    public static int play(int bet) {
         Scanner input = new Scanner(System.in);
+        int toReturn = bet;
         System.out.println("Welcome to BlackJack!");
         ArrayList<PlayingCard> playerHand = getStartingHand();
         ArrayList<PlayingCard> dealerHand = getStartingHand();
@@ -87,7 +96,7 @@ public class Blackjack {
         while(done == false) {
         	if(totalValue(dealerHand) < 17) {
         		dealerHand.add(PlayingCard.getRandomPlayingCard());
-        		System.out.println(winOrLose(playerHand,dealerHand,done));
+        		toReturn = winOrLose(playerHand,dealerHand,done,bet);
         	}
             System.out.print("Would you like to recieve another card?(y/n)");
             String answer = input.next();
@@ -97,14 +106,15 @@ public class Blackjack {
                 System.out.println("You recieve a " + newCard.toString());
                 if(totalValue(playerHand) >= 21) {
                 	done = true;
-                	System.out.println(winOrLose(playerHand,dealerHand,done));
+                	winOrLose(playerHand,dealerHand,done,bet);
                 }
             }
             else {
                 done = true;
-                System.out.println(winOrLose(playerHand,dealerHand,done));
+                winOrLose(playerHand,dealerHand,done,bet);
             }
         }
         input.close();
+        return toReturn;
     }
 }
