@@ -72,7 +72,7 @@ public class Blackjack {
     /**
      * A method to create a game of BlackJack.
      */
-    public static void main(String[] args) {
+    public void play() {
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to BlackJack!");
         ArrayList<PlayingCard> playerHand = getStartingHand();
