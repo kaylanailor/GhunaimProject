@@ -45,34 +45,32 @@ public class Blackjack {
      * A static helper method to return whether you lost or won and how you did it.
      * @return string
      */
-    private static int winOrLose(ArrayList<PlayingCard> playerHand,ArrayList<PlayingCard> dealerHand,boolean finished, int bet) {
-    	int toReturn = 0;
+    private static String winOrLose(ArrayList<PlayingCard> playerHand,ArrayList<PlayingCard> dealerHand,boolean finished) {
+    	String toReturn = "";
         int playerTotal = totalValue(playerHand);
         int dealerTotal = totalValue(dealerHand);
         if(playerTotal > dealerTotal && playerTotal < 21) {
-            System.out.println("Congrats you won! Lenny the dealer had a lower card total! ( ͡° ʖ̯ ͡°)");
-            toReturn = 2 * bet;
+            toReturn = "Congrats you won! Lenny the dealer had a lower card total! ( ͡° ʖ̯ ͡°)";
+        	
         }
         else if(playerTotal > 21) {
-        	System.out.println("You lost! You went over 21! ( ͡° ͜ʖ ͡°) Lenny the Dealer called you a moron!");
+        	toReturn = "You lost! You went over 21! ( ͡° ͜ʖ ͡°) Lenny the Dealer called you a moron!";
         }
         else if(playerTotal < 21 && dealerTotal > 21) {
-        	System.out.println("You won because Lenny the dealer ( ͡° ʖ̯ ͡°) fucked up by going over 21!");
-        	toReturn = 2 * bet;
+        	toReturn = "You won because Lenny the dealer ( ͡° ʖ̯ ͡°) fucked up by going over 21!";
+        	
         }
         else if(playerTotal == 21) {
-        	System.out.println("Congratulations you won! You had a perfect 21! ( ͡° ʖ̯ ͡°)");
-        	toReturn = 3 * bet;
+        	toReturn = "Congratulations you won! You had a perfect 21! ( ͡° ʖ̯ ͡°)";
         }
         else if(playerTotal < dealerTotal && dealerTotal < 21) {
-        	System.out.println("Lenny the Dealer won! ( ͡° ͜ʖ ͡°) with a total card value of " + totalValue(dealerHand));
+        	toReturn = "Lenny the Dealer won! ( ͡° ͜ʖ ͡°) with a total card value of " + totalValue(dealerHand);
         }
         else if(dealerTotal == 21) {
-        	System.out.println("Lenny the Dealer won! ( ͡° ͜ʖ ͡°) He had a perfect hand!");
+        	toReturn = "Lenny the Dealer won! ( ͡° ͜ʖ ͡°) He had a perfect hand!";
         }
         else if(playerTotal == dealerTotal) {
-        	System.out.println("No one wins!");
-        	toReturn = bet;
+         	toReturn = "No one wins!";
         }
         return toReturn;
     }
@@ -80,9 +78,8 @@ public class Blackjack {
     /**
      * A method to create a game of BlackJack.
      */
-    public static int play(int bet) {
-        Scanner input = new Scanner(System.in);
-        int toReturn = bet;
+    public static void play(Scanner input) {
+        //int toReturn = bet;
         System.out.println("Welcome to BlackJack!");
         ArrayList<PlayingCard> playerHand = getStartingHand();
         ArrayList<PlayingCard> dealerHand = getStartingHand();
@@ -96,25 +93,29 @@ public class Blackjack {
         while(done == false) {
         	if(totalValue(dealerHand) < 17) {
         		dealerHand.add(PlayingCard.getRandomPlayingCard());
-        		toReturn = winOrLose(playerHand,dealerHand,done,bet);
+        		if(totalValue(dealerHand) >= 21) {
+        			done = true;
+        		System.out.println(winOrLose(playerHand,dealerHand,done));
+        		}
         	}
+        	if(done == false) {
             System.out.print("Would you like to recieve another card?(y/n)");
             String answer = input.next();
-            if(answer.equals("y")) {
+            if(answer.equalsIgnoreCase("y")) {
                 PlayingCard newCard = PlayingCard.getRandomPlayingCard();
                 playerHand.add(newCard);
                 System.out.println("You recieve a " + newCard.toString());
                 if(totalValue(playerHand) >= 21) {
                 	done = true;
-                	winOrLose(playerHand,dealerHand,done,bet);
+                	System.out.println(winOrLose(playerHand,dealerHand,done));
                 }
             }
-            else {
-                done = true;
-                winOrLose(playerHand,dealerHand,done,bet);
+            else if(answer.equalsIgnoreCase("n")) {
+            	done = true;
+                System.out.println(winOrLose(playerHand,dealerHand,done));
             }
+        	}
         }
-        input.close();
-        return toReturn;
+        //return toReturn;
     }
 }
