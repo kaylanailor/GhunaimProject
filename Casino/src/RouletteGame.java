@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class RouletteGame {
-	public static int play(int bet) {
+	public static int play(int bet, Scanner input) {
         System.out.println("Welcome to the Roulette Table!");
         RouletteTable table = new RouletteTable(5);
         TheWheel wheel = new TheWheel();
@@ -17,7 +17,6 @@ public class RouletteGame {
         }
         boolean results = false;
         while (results == false) {
-        	Scanner input = new Scanner(System.in);
                 table.setBet(bet);
                 System.out.println("You have bet " + bet + " dollars!");
                     

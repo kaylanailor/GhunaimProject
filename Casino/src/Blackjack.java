@@ -40,6 +40,27 @@ public class Blackjack {
         startingHand.add(secondCard);
         return startingHand;
     }
+    
+    private static int calculateWinnings(String condition, int bet) {
+    	int winnings = 0;
+    	switch(condition) {
+    	case "Congrats you won! Lenny the dealer had a lower card total! ( ͡° ʖ̯ ͡°)" :
+    	case "You won because Lenny the dealer ( ͡° ʖ̯ ͡°) fucked up by going over 21!":
+    		winnings = 2 * bet;
+    		System.out.println("You have won " + winnings);
+    		break;
+    	case "Congratulations you won! You had a perfect 21! ( ͡° ʖ̯ ͡°)":
+    		winnings = 3 * bet;
+    		System.out.println("You have won" + winnings);
+    		break;
+    	case "No one wins!":
+    		System.out.println("You recieve your bet of " + bet + " back");
+    		winnings = bet;
+    	default:
+    		break;
+    	}
+    	return winnings;
+    }
  
     /**
      * A static helper method to return whether you lost or won and how you did it.
@@ -78,8 +99,8 @@ public class Blackjack {
     /**
      * A method to create a game of BlackJack.
      */
-    public static void play(Scanner input) {
-        //int toReturn = bet;
+    public static int play(Scanner input, int bet) {
+        int toReturn = 0;
         System.out.println("Welcome to BlackJack!");
         ArrayList<PlayingCard> playerHand = getStartingHand();
         ArrayList<PlayingCard> dealerHand = getStartingHand();
@@ -116,6 +137,7 @@ public class Blackjack {
             }
         	}
         }
-        //return toReturn;
+        toReturn = calculateWinnings(winOrLose(playerHand,dealerHand,done),bet);
+        return toReturn;
     }
 }
