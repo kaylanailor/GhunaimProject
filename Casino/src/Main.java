@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+@SuppressWarnings("unused")
 public class Main {
 
 	public static void main(String[] args) {
@@ -17,91 +18,107 @@ public class Main {
 
 		gambler.setName(getName(scanner));
 		gambler.setAge(getAge(scanner));
-
-		// Giving the Gambler an assortment of chips.
-		fannyPack.addBlueChips(5);
-		fannyPack.addGreenChips(10);
-		fannyPack.addRedChips(12);
-		fannyPack.addWhiteChips(15);
-		ExchangeTable table = new ExchangeTable();
-		System.out.println("Welcome to Lenny's Casino ( ͡° ͜ʖ ͡°)");
-		System.out.println("Since this is your first time here, we encourage you to exchange your chips for money.");
-		boolean leftCasino = false;
-		while (leftCasino == false) {
-			System.out.println("Here are your options!\n" + "A. Exchange Table\n" + "B. Blackjack\n"
-					+ "C. Roulette Table\n" + "D. Exit\n");
-			String answer = scanner.next();
-			switch (answer) {
-			case "A":
-			case "a":
-				sendToExchangeTable(scanner, gambler, table);
-				break;
-			case "B":
-			case "b":
-				boolean stillPlaying = true;
-				while (stillPlaying == true) {
-					System.out.println("How much would you like to bet?");
-					int bet = scanner.nextInt();
-					gambler.setCash(-bet);
-					int winnings = Blackjack.play(scanner, bet);
-					gambler.setCash(winnings);
-					System.out.println("You currently have " + gambler.getCash() + " in cash.");
-					if (gambler.getCash() != 0) {
-						System.out.println("Would you like to keep playing? (Y/N)");
-						String next = scanner.next();
-						if (next.equalsIgnoreCase("N")) {
-							stillPlaying = false;
+		if (gambler.getAge() < 21) {
+			System.out.println("You are too young to be at the casino.");
+		} else {
+			// Giving the Gambler an assortment of chips.
+			fannyPack.addBlueChips(5);
+			fannyPack.addGreenChips(10);
+			fannyPack.addRedChips(12);
+			fannyPack.addWhiteChips(15);
+			ExchangeTable table = new ExchangeTable();
+			System.out.println("Welcome to Lenny's Casino ( ͡° ͜ʖ ͡°)");
+			System.out
+					.println("Since this is your first time here, we encourage you to exchange your chips for money.");
+			boolean leftCasino = false;
+			while (leftCasino == false) {
+				System.out.println("Here are your options!\n" + "A. Exchange Table\n" + "B. Blackjack\n"
+						+ "C. Roulette Table\n" + "D. Exit\n");
+				String answer = scanner.next();
+				switch (answer) {
+				case "A":
+				case "a":
+					sendToExchangeTable(scanner, gambler, table);
+					break;
+				case "B":
+				case "b":
+					boolean stillPlaying = true;
+					if (gambler.getCash() == 0) {
+						System.out.println("You have no money return to the table when you have some.");
+						stillPlaying = false;
+					} else {
+						while (stillPlaying == true) {
+							System.out.println("How much would you like to bet?");
+							int bet = scanner.nextInt();
+							gambler.setCash(-bet);
+							int winnings = Blackjack.play(scanner, bet);
+							gambler.setCash(winnings);
+							System.out.println("You currently have " + gambler.getCash() + " in cash.");
+							if (gambler.getCash() != 0) {
+								System.out.println("Would you like to keep playing? (Y/N)");
+								String next = scanner.next();
+								if (next.equalsIgnoreCase("N")) {
+									stillPlaying = false;
+								}
+							} else if (gambler.getCash() == 0 && (fannyPack.getTotalBlueChips() != 0
+									|| fannyPack.getTotalGreenChips() != 0 || fannyPack.getTotalRedChips() != 0
+									|| fannyPack.getTotalWhiteChips() != 0)) {
+								System.out.println(
+										"You have no cash but you have more chips. If you want to continue playing please go to the Exchange Table.");
+								stillPlaying = false;
+							} else {
+								System.out.println("You have no money or chips! The casino has kicked you out!");
+								leftCasino = true;
+								stillPlaying = false;
+							}
 						}
 					}
-					else if(gambler.getCash() == 0 && (fannyPack.getTotalBlueChips() != 0 || fannyPack.getTotalGreenChips() != 0 || fannyPack.getTotalRedChips() != 0 || fannyPack.getTotalWhiteChips() != 0)) {
-						System.out.println("You have no cash but you have more chips. If you want to continue playing please go to the Exchange Table.");
+					break;
+				case "C":
+				case "c":
+					stillPlaying = true;
+					if (gambler.getCash() == 0) {
+						System.out.println("You have no money return to the table when you have some.");
 						stillPlaying = false;
-					}
-					else {
-						System.out.println("You have no money or chips! The casino has kicked you out!");
-						leftCasino = true;
-						stillPlaying = false;
-					}
-				}
-				break;
-			case "C":
-			case "c":
-				stillPlaying = true;
-				while (stillPlaying == true) {
-					System.out.println("How much would you like to bet?");
-					int bet = scanner.nextInt();
-					gambler.setCash(-bet);
-					int winnings = RouletteGame.play(bet, scanner);
-					gambler.setCash(winnings);
-					System.out.println("You currently have " + gambler.getCash() + " in cash.");
-					if (gambler.getCash() > 0) {
-						System.out.println("Would you like to keep playing? (Y/N)");
-						String next = scanner.next();
-						if (next.equalsIgnoreCase("N")) {
-							stillPlaying = false;
+					} else {
+						while (stillPlaying == true) {
+							System.out.println("How much would you like to bet?");
+							int bet = scanner.nextInt();
+							gambler.setCash(-bet);
+							int winnings = RouletteGame.play(bet, scanner);
+							gambler.setCash(winnings);
+							System.out.println("You currently have " + gambler.getCash() + " in cash.");
+							if (gambler.getCash() > 0) {
+								System.out.println("Would you like to keep playing? (Y/N)");
+								String next = scanner.next();
+								if (next.equalsIgnoreCase("N")) {
+									stillPlaying = false;
+								}
+							} else if (gambler.getCash() <= 0 && (fannyPack.getTotalBlueChips() != 0
+									|| fannyPack.getTotalGreenChips() != 0 || fannyPack.getTotalRedChips() != 0
+									|| fannyPack.getTotalWhiteChips() != 0)) {
+								System.out.println(
+										"You have no cash but you have more chips. If you want to continue playing please go to the Exchange Table.");
+								stillPlaying = false;
+							} else {
+								System.out.println("You have no money or chips! The casino has kicked you out!");
+								leftCasino = true;
+								stillPlaying = false;
+							}
 						}
-					}
-					else if(gambler.getCash() <= 0 && (fannyPack.getTotalBlueChips() != 0 || fannyPack.getTotalGreenChips() != 0 || fannyPack.getTotalRedChips() != 0 || fannyPack.getTotalWhiteChips() != 0)) {
-						System.out.println("You have no cash but you have more chips. If you want to continue playing please go to the Exchange Table.");
-						stillPlaying = false;
-					}
-					else {
-						System.out.println("You have no money or chips! The casino has kicked you out!");
-						leftCasino = true;
-						stillPlaying = false;
-					}
-					
-				}
-				break;
-			case "D":
-			case "d":
-				System.out.println("Lenny is sad pwease don't weave.");
-				leftCasino = true;
-				break;
-			default:
-				System.out.println("Invalid answer");
-				break;
 
+					}
+					break;
+				case "D":
+				case "d":
+					System.out.println("Lenny is sad pwease don't weave.");
+					leftCasino = true;
+					break;
+				default:
+					System.out.println("Invalid answer");
+					break;
+
+				}
 			}
 		}
 
