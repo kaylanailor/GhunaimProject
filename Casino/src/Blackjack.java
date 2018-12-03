@@ -5,7 +5,7 @@ import java.util.Iterator;
  * A class to create a game of BlackJack.
  *
  * @author Kayla Nailor
- * @version February 2nd, 2018
+ * @version December 2nd, 2018
  */
 @SuppressWarnings("unused")
 public class Blackjack {
@@ -41,6 +41,12 @@ public class Blackjack {
         return startingHand;
     }
     
+    /**
+     * A static helper method to calculate how much the player won based on the returned string.
+     * @param condition is the returned from the winOrLose command at the end of the game
+     * @param bet is the amount the player bet at the beginning of the game
+     * @return the amount that the player won from the table.
+     */
     private static int calculateWinnings(String condition, int bet) {
     	int winnings = 0;
     	switch(condition) {
@@ -64,7 +70,7 @@ public class Blackjack {
  
     /**
      * A static helper method to return whether you lost or won and how you did it.
-     * @return string
+     * @return string returns a string about how the player won or lost or tied
      */
     private static String winOrLose(ArrayList<PlayingCard> playerHand,ArrayList<PlayingCard> dealerHand,boolean finished) {
     	String toReturn = "";
@@ -98,6 +104,7 @@ public class Blackjack {
  
     /**
      * A method to create a game of BlackJack.
+     * @return returns an integer of how much the player won or lost
      */
     public static int play(Scanner input, int bet) {
         int toReturn = 0;

@@ -3,7 +3,7 @@ import java.util.Random;
  * What the card can be.
  *
  * @author Kayla Nailor
- * @version February 16th, 2018
+ * @version December 2nd, 2018
  */
 public enum Denomination
 {
@@ -50,20 +50,21 @@ public enum Denomination
     }
     /**
      * Accessor method for denomination char
-     * @return char
+     * @return char = returns the denomination game
      */
     public char getDenomName() {
         return denomName;
     }
     /**
      * Accessor method for value for card.
-     * @return int
+     * @return returns a value for a card
      */
     public int getValue() {
         return value;
     }
     /**
      * A static method to return a random denomination.
+     * @return returns a random denomination
      */
     public static Denomination getRandomDenomination() {        
         Random random = new Random();

@@ -3,8 +3,8 @@ import java.util.Random;
 /**
  * Represents spades, hearts, clubs, or diamonds.
  * 
- * @author Chad Hogg
- * @version 2017-02-09
+ * @author Kayla Nailor
+ * @version 2018-12-2
  */
 public enum Suit {
     /** Spades. */
