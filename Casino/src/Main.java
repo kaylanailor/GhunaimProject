@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 @SuppressWarnings("unused")
-public class Main {
+public class Main{
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IllegalArgumentException {
 
 		// Create a new Fanny Pack.
 		FannyPack fannyPack = new FannyPack();
@@ -50,6 +50,14 @@ public class Main {
 						while (stillPlaying == true) {
 							System.out.println("How much would you like to bet?");
 							int bet = scanner.nextInt();
+							try {
+								if(bet <= 0) {
+								throw(new IllegalArgumentException());									
+								}
+							}
+							catch(IllegalArgumentException e) {
+								System.out.println(e.getMessage());
+							}
 							gambler.setCash(-bet);
 							int winnings = Blackjack.play(scanner, bet);
 							gambler.setCash(winnings);
@@ -84,6 +92,14 @@ public class Main {
 						while (stillPlaying == true) {
 							System.out.println("How much would you like to bet?");
 							int bet = scanner.nextInt();
+							try {
+								if(bet <= 0) {
+								throw(new IllegalArgumentException());									
+								}
+							}
+							catch(IllegalArgumentException e) {
+								System.out.println(e.getMessage());
+							}
 							gambler.setCash(-bet);
 							int winnings = RouletteGame.play(bet, scanner);
 							gambler.setCash(winnings);
